@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Dashboard</h1>
+
+        <!-- Form for searching the weather -->
+        <form method="POST" action="/">
+            <input type="text" name="city" placeholder="Enter City" value="{{ city }}" required />
+            <button type="submit">Get Weather</button>
+        </form>
+
+        {% if weather_data %}
+            {% if weather_data.error %}
+                <p>{{ weather_data.error }}</p>
+            {% else %}
+                <div id="weatherDetails">
+                    <h2>{{ weather_data['name'] }}</h2>
+                    <p>Temperature: {{ weather_data['main']['temp'] }}°C</p>
+                    <p>Description: {{ weather_data['weather'][0]['description'] }}</p>
+                    <p>Humidity: {{ weather_data['main']['humidity'] }}%</p>
+                    <p>Wind Speed: {{ weather_data['wind']['speed'] }} m/s</p>
+                </div>
+            {% endif %}
+        {% elif city %}
+            <p>City not found. Please try again.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
